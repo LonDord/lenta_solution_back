@@ -43,3 +43,22 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+# Gradle
+.gradle/
+
+# IDE
+.idea/
+
+# OS
+Thumbs.db
+
+# Docker
+*.tar.gz
+
+# Logs
+logs/
+*.log
+
+# Local configuration
+local.properties
