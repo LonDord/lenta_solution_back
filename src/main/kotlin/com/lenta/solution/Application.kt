@@ -8,10 +8,13 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.serialization.jackson.*
 
 fun main() {
+    val port = System.getenv("SERVER_PORT")?.toIntOrNull() ?: 4444
+    val host = System.getenv("SERVER_HOST") ?: "192.168.0.47"
+
     embeddedServer(
         Netty,
-        port = 4444,
-        host = "192.168.0.47",
+        port = port,
+        host = host,
         module = Application::module
     ).start(wait = true)
 }

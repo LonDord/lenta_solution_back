@@ -13,6 +13,10 @@ fun Application.configureRoutes() {
 
     routing {
         route("/api") {
+            get("/health") {
+                call.respond(mapOf("status" to "ok", "timestamp" to System.currentTimeMillis()))
+            }
+
             post("/processing1") {
                 val processor = processorFactory.getProcessor("processing1")
                 if (processor != null) {

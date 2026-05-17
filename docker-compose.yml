@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  lenta-solution-back:
+    build: .
+    container_name: lenta-solution-back
+    ports:
+      - "4444:4444"
+    restart: unless-stopped
+    environment:
+      - SERVER_HOST=0.0.0.0
+      - SERVER_PORT=4444
+    networks:
+      - lenta-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4444/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  lenta-network:
+    driver: bridge
