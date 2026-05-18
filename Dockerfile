@@ -1,11 +1,14 @@
-FROM openjdk:11-jre-slim
+FROM amazoncorretto:11-alpine
+
+RUN apk add --no-cache curl
 
 WORKDIR /app
 
 COPY build/libs/lenta_solution_back-*.jar app.jar
 
-RUN useradd -m -s /bin/bash appuser && \
+RUN addgroup -S appuser && adduser -S appuser -G appuser && \
     chown -R appuser:appuser /app
+
 USER appuser
 
 EXPOSE 4444
