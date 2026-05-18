@@ -14,7 +14,11 @@ fun Application.configureRoutes() {
     routing {
         route("/api") {
             get("/health") {
-                call.respond(mapOf("status" to "ok", "timestamp" to System.currentTimeMillis()))
+                call.respond(mapOf(
+                    "status" to "ok",
+                    "version" to "2.0",
+                    "timestamp" to System.currentTimeMillis()
+                ))
             }
 
             post("/processing1") {
