@@ -4,7 +4,7 @@ RUN apk add --no-cache curl
 
 WORKDIR /app
 
-COPY build/libs/lenta_solution_back-*.jar app.jar
+COPY build/libs/lenta_solution_back-1.0-SNAPSHOT.jar app.jar
 
 RUN addgroup -S appuser && adduser -S appuser -G appuser && \
     chown -R appuser:appuser /app

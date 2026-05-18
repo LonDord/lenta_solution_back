@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "2.0.20"
+    application
 }
 
 group = "org.example"
@@ -23,6 +24,18 @@ dependencies {
     // CSV Processing
     implementation("com.opencsv:opencsv:5.9")
 
+}
+
+application {
+    mainClass.set("com.lenta.solution.ApplicationKt")
+}
+
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "com.lenta.solution.ApplicationKt"
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
 }
 
 tasks.test {
