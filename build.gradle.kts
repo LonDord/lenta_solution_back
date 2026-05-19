@@ -17,6 +17,7 @@ dependencies {
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
     implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
     implementation("io.ktor:ktor-serialization-jackson:$ktorVersion")
+    implementation("io.ktor:ktor-server-cors:$ktorVersion")
 
     // Ktor Client (для вызова Python CV-сервиса)
     implementation("io.ktor:ktor-client-core:$ktorVersion")
