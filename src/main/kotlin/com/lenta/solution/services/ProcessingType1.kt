@@ -7,10 +7,7 @@ class ProcessingType1 : VideoProcessor {
     override fun getProcessorName(): String = "processing1"
 
     override suspend fun process(videoData: ByteArray): String {
-        // TODO: Реализовать алгоритм 1
-
-        val csv = StringBuilder()
-
-        return csv.toString()
+        val results = CvServiceClient.process(videoData, model = "low")
+        return CvServiceClient.toCsv(results)
     }
 }

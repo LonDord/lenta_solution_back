@@ -28,12 +28,29 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_PAT }}
 
-      - name: Build and push Docker image
+      - name: Build and push Kotlin backend image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           tags: ghcr.io/londord/lenta_solution_back:latest
+
+      - name: Build and push Python CV service image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./cv-service
+          push: true
+          tags: ghcr.io/londord/lenta_cv_service:latest
+
+      - name: Copy docker-compose to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          source: docker-compose.yml
+          target: ~/lenta-solution/
 
       - name: Deploy to server
         uses: appleboy/ssh-action@v1.0.0
@@ -46,6 +63,7 @@ jobs:
             cd ~/lenta-solution
             echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             docker pull ghcr.io/londord/lenta_solution_back:latest
+            docker pull ghcr.io/londord/lenta_cv_service:latest
             docker-compose down || true
             docker-compose up -d
             docker image prune -f

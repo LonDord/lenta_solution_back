@@ -18,6 +18,13 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
     implementation("io.ktor:ktor-serialization-jackson:$ktorVersion")
 
+    // Ktor Client (для вызова Python CV-сервиса)
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-cio:$ktorVersion")
+
+    // Jackson Kotlin-модуль (парсинг JSON-ответа от CV-сервиса)
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.2")
+
     // Logging
     implementation("ch.qos.logback:logback-classic:1.4.14")
 

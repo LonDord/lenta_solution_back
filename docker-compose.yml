@@ -1,8 +1,24 @@
 version: '3.8'
 
 services:
+  cv-service:
+    image: ghcr.io/londord/lenta_cv_service:latest
+    container_name: cv-service
+    volumes:
+      - ~/lenta-weights/low:/app/low
+      - ~/lenta-weights/high:/app/high
+    restart: unless-stopped
+    networks:
+      - lenta-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
   lenta-solution-back:
-    build: .
+    image: ghcr.io/londord/lenta_solution_back:latest
     container_name: lenta-solution-back
     ports:
       - "4444:4444"
@@ -10,6 +26,9 @@ services:
     environment:
       - SERVER_HOST=0.0.0.0
       - SERVER_PORT=4444
+      - CV_SERVICE_URL=http://cv-service:8000
+    depends_on:
+      - cv-service
     networks:
       - lenta-network
     healthcheck:
