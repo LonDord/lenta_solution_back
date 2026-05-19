@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
@@ -25,7 +26,16 @@ object CvServiceClient {
     private val baseUrl = System.getenv("CV_SERVICE_URL") ?: "http://localhost:8000"
 
     suspend fun process(videoData: ByteArray, model: String): List<DetectionResult> {
-        val client = HttpClient(CIO)
+        val client = HttpClient(CIO) {
+            engine {
+                requestTimeout = 600_000
+            }
+            install(HttpTimeout) {
+                requestTimeoutMillis = 600_000
+                connectTimeoutMillis = 10_000
+                socketTimeoutMillis = 600_000
+            }
+        }
         return try {
             val response = client.post("$baseUrl/process?model=$model") {
                 setBody(
